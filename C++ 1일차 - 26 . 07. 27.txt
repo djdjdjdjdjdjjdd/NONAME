@@ -1,0 +1,409 @@
+C++은 C언어의 사촌지간 같은 관계이다
+비슷하지만 다름(대략 20%만 닮음)
+
+C++ = C + class
+기존 C에서 class가 더해진게  C++
+class는 하나의 자료형이다
+
+C언어 : 일을 순서대로 처리하는 절차지향 언어이다
+단점 : 유지보수의 어려움(하나가 고장나면 전체가 고장)
+	 순서가 정해져있어서 비효율적, 순서가 바뀌면 결과도 달라짐
+
+C++ : 프로그램을 다수의 객체로 만들고, 서로 상호작용하는 프로그래밍 언어
+
+
+<헤드파일의 차이>
+C언어 :  #include <stdio.h>
+
+C++ : #include <iostream>
+
+C언어에서는 출력의 대상에 따라 서식지정을 달리했지만
+C++에서는  그러한 과정이 불필요함
+
+<명령어 차이>
+
+(출력)
+C언어 : printf ();
+C++ : cout ();
+
+(입력) 
+C언어 : scanf ();
+C++ : cinc ();
+
+자주쓰는 :: 는 범위 지정 연산자 라고 부른다
+
+기존 c언어에 있던 명령어를 써도 되지만
+객체지향 언어를 배우는거이기 때문에 가급적이면 쓰지 않는다
+=====================================================
+#1-1
+
+#include <iostream>
+
+int main(void)
+{
+	int num = 20;
+	std::cout << "hello world!" << std::endl; 
+	std::cout << "hello" << "world!" << std::endl;	
+	std::cout << num << ' ' << 'A'; 
+	std::cout << ' ' << 3.14 << std::endl; 
+	return 0;
+}
+
+<출력값>
+hello world!
+helloworld!
+20 A 3.14
+
+endl 은 c언어에서 쓰던 개행과 비슷하다
+
+======================================================
+
+#1-2
+
+#include <iostream>
+
+int main() {
+	int val1;
+	std::cout << "첫 번째 숫자입력 : ";
+	std::cin >> val1;
+
+	int val2;
+	std::cout << "두 번째 숫자입력 : ";
+	std::cin >> val2;
+
+	int result = val1 + val2;
+	std::cout << "덧셈결과: " << result << std::endl;
+
+	return 0;
+}
+
+<출력값>
+첫번째 숫자: 원하는값
+두번째 숫자: 원하는 값
+덧셈결과 : 합한 값
+
+c++에서는  for 문 안에 변수 선언이 된다
+
+======================================================
+#1-3
+
+#include <iostream>
+
+
+int main()
+{
+	int val1, val2;
+	int result = 0;
+	std::cout << "두개의 숫자 입력 : ";
+	std::cin >> val1 >> val2;
+
+	if (val1 < val2)
+	{
+		for (int i = val1 + 1; i < val2; i++)
+			result += i;
+	}
+	else {
+		for (int i = val2 + 1; i < val1; i++)
+			result += i;
+	}
+	std::cout << "두 수 사이의 정수의합: " << result << std::endl;
+
+	return 0;
+}
+
+
+<출력값>
+두개의 숫자 입력:
+두 수 사이의 정수의 합:
+
+
+#1-4
+#include <iostream>
+
+int main()
+{
+	char name[100];
+	char lang[200];
+	std::cout << "이름 입력하세요 : ";
+	std::cin >> name;
+	std::cout << "좋아하는 프로그래밍 언어 입력하세요 : ";
+	std::cin >> lang;
+	std::cout << "내 이름은, " << name << "입니다"
+	std::cout << "제일 좋아하는 언어는, " << lang << "입니다" << std::endl; 
+
+	return 0;
+}
+
+<출력값>
+이름 입력: 
+좋아하는  프로그래밍 언어 입력: 
+마지막 전부 표시
+======================================================
+함수 오버로딩(다중정의)      // 번외 오버라이딩(재정의) 아직 안배움
+
+예시)
+int main()
+{
+	myfucn(20);
+	myfucn(20, 30);
+	
+	return 0;
+}
+
+C언어 : 함수의 이름이 같아서 컴파일 에러가 걸린다
+
+C++ : 함수의 이름이 같아도 안에 입력되어있는 값이 다르면 다른함수로 취급한다
+
+또다른 예시)
+
+int myfucn(int n);
+int myfucn(int n, int s);
+오버로딩에 성립
+
+int myfucn(int n);
+void myfucn(int n);
+오버로딩에 성립하지 않는다
+
+======================================================디폴트값 정의
+
+int myfucnOne(int num=7)
+{
+	 return num+1;
+}
+인자를 전달하지 않으면 7이 전달된것으로 간주한다
+디폴트 값은 7이기 때문에 따라서 
+
+값은 myfucnOne(7) 이 나온다
+
+또다른 예시)
+
+int myfucnOne(int num1=7, int num2=3)
+{
+	 return num1+num2;
+}
+
+값은 myfucnOne(7,3)이 나온다
+======================================================
+#1-5
+#include <iostream>
+
+void Myfunc(void)
+{
+	std::cout << "Myfunc(void) called" << std::endl;
+}
+void Myfunc(char c)
+{
+	std::cout << "Myfunc(char c) called" << std::endl;
+}
+void Myfunc(int a, int b)
+{
+	std::cout << "Myfunc(int a, int b) called" << std::endl;
+}
+int main(void)
+{
+	Myfunc();
+	Myfunc('A');
+	Myfunc (12, 13);
+	return 0;
+}
+
+<출력값>
+Myfunc(void) called
+Myfunc(char c) called
+Myfunc(int a, int b) called
+======================================================
+디폴트값 예시
+
+int yourfunc(int num1, int num2 = 2, int num3 =5)
+{
+	yourfunc(5);    //yourfunc(5, 2, 5);
+	yourfunc(10, 20) //yourfunc(10, 20, 5);
+
+디폴트값은 왼쪽에서 오른쪽으로 인자가 채워진다
+
+
+실행이 되지 않는 예시(에러)
+int yourfunc(int num1 = 1, int num2 = 2, int num3)
+{
+	yourfunc(5);    //yourfunc(5, 2, 5); 
+	yourfunc(10, 20) //yourfunc(10, 20, 5);
+
+디폴트값에 인자를 채워넣을때는 오른쪽에서 부터 채워야한다
+int num1 보단 int num3쪽 부터 채워야한다는 소리
+======================================================
+#1-6
+/*디폴트 매개변수*/
+#include <iostream>
+
+int Adder(int num1 = 1, int num2 = 2)
+{
+	return num1 + num2;
+}
+int main(void)
+{
+	std::cout << Adder() << std::endl;
+	std::cout << Adder(5) << std::endl;
+	std::cout << Adder(3, 5) << std::endl;
+	return 0;
+}
+
+<출력값>
+3    //2+1
+7   // 기존 5 + 디폴트값2
+8 //디폴트 값 없이 설정값으로 8
+======================================================
+함수의inline 선언
+
+장점: 함수가 인라인화 되어 성능의 향상으로 이어질 수 있다
+
+단점: 함수의 정의 방식이 일반함수에 비해서 복잡하다.
+	따라서 복잡한 함수의 정의에는 한계가 있다.
+
+inline 함수는 기존에 존재하는 함수 앞에 붙인다
+예시)
+int main()  - > inline int mai()
+
+키워드 inline 선언은 컴파일러에 의해서 처리된다
+따라서 컴파일러가 함수의 인라인화를 결정한다
+
+inline 선언이 되어도 인라인 처리가 되지 않을수도 있다
+inline 선언이 안되어있어도 인라인 처리가 될수도있다
+
+inline함수는 매크로 함수와 달리 자료형에 독립적이지 못하다	
+======================================================매크로 함수
+======================================================
+#1-7
+#include <iostream>
+
+inline int SQUARE(int x)
+{
+	return x * x;
+}
+
+int main(void)
+{
+	std::cout << SQUARE(5) << std::endl;
+	std::cout << SQUARE(12) << std::endl;
+}
+
+<출력값>
+25
+144
+
+int SQUARE	에 25와 144가 나오는 이유는
+들어가있는 값이
+RETURN 에서 곱해지기 때문
+SQUARE(5)는 5 * 5는 25의 값으로 출력된다
+======================================================
+#1-8
+#include <iostream>
+
+namespace BestComImpl
+{
+	void SimpleFunc(void)
+	{
+		std::cout << "BestCom이 정의한 함수" << std::endl;
+	}
+}
+
+namespace ProgComImpl
+{
+	void SimpleFunc(void)
+	{
+		std::cout << "ProgCom이 정의한 함수" << std::endl;
+	}
+}
+int main(void)
+{
+	BestComImpl::SimpleFunc();
+	ProgComImpl::SimpleFunc();
+	return 0;
+}
+
+<출력값>
+BestCom이 정의한 함수
+ProgCom이 정의한 함수
+======================================================
+name space ABC = AAA::BBB::CCC
+
+name space AAA
+{
+	name space BBB
+	{
+		name space CCC
+		{
+			int a = 1
+			int b = 2
+			}
+	]
+}
+======================================================#1-10
+int main(void)
+{
+	int num = 10;
+	int i = 0;
+	cout << "ture : "<< true<< endl;
+	cout << "false : "<< false << endl;
+	while(true)
+	{
+		cout << i++ << ' ';
+		if(i > num)
+			break;
+	}
+	cout << endl;
+
+	cout << "sizeof 1:"  << sizeof(1) << endl;
+	cout << "sizeof 0: " << sizeof (0) << endl;
+	cout << "sizeof true : " << sizeof(true) << endl;
+	cout << "sizeof false : " << sizeof(false) << endl;
+	return 0;
+}
+
+<출력값>
+true: 1
+false: 0
+0 1 2 3 4 5 6 7 8 9 10
+sizeof 1: 4
+sizeof 0: 4
+sizeof true: 1
+sizeof false: 1
+======================================================
+자료형 bool 
+true와 false는 bool형 데이터이다.
+true와 false 정보를 저장할 수 있는 변수는 bool형 변수이다
+======================================================
+참조자 의 이해
+참조자 선언을 하고 있을떄 참조자는 꼭 초기화 시켜줘야한다
+
+int num1=2010;
+변수의 선언으로 인해서 num1 이라는 이름으로 메모리공간이 할당된다
+
+int &num2 = num1
+참조자의 선언으로 인해서 num1의 메모리공간에 num2라는 이름이 추가로 붙게된다
+
+참조자는 기존에 선언된 변수에 붙이는 "별칭"이다 , 그리고 이렇게 참조자가
+만들어지면 변수의 이름과 사실상 차이가 없다
+======================================================
+참조자 선언의 예제
+
+int num1 = 2769; 
+int &num2= num1;
+int &num3= num2;
+
+참조자의 수에는 제한이 없으며 , 참조자를 대상으로 참조자를 선언하는 것도 가능하다
+======================================================
+참조자의 선언가능 범위
+예시)
+
+int &ref = 20 ;
+상수 대상으로의 참조선언은 불가능하다
+
+int &ref;
+참조자는 생성과 동시에 누군가를 참조행한다 (대상이 없어서 참조자 선언 x)
+
+int &ref = NULL;
+포인터처럼 NULL로 초기화 하는것도 불가능하다
+
+변수의 성향을 지니는 대상이라면 참조자의 선언이 가능하다.
+배열의 요소 역시 변수의 성향을 지니기 때문에 참조자의 선언이 가능하다
+======================================================
