@@ -1,0 +1,463 @@
+CHAPTER 4
+배운것
+생성자 이해
+소멸자 이해
+=========================================== 생성자는 객체 생성시 딱 한번 호출된다 .
+따라서멤버변수의초기화에사용할수있다.
+
+생성자도 함수의 일종이므로 , 
+오버로딩이 가능하고 디폴트 값 설정이가능하다.
+
+클래스의 이름과 동일한 이름의 함수이면서 반환형 이 선언되지 않았고실제로 반환하지 않는 함수를 가리켜 생성자라한다
+===========================================
+#SimpleClass
+#include <iostream>
+using namespace std;
+
+class SimpleClass { //SimpleClass 클래스 정의
+    int num1;
+    int num2;
+
+public:
+
+    SimpleClass(int n1 = 0, int n2 = 0) {
+        num1 = n1;
+        num2 = n2;
+    }
+
+	void showdata() const { //쇼 데이터 뒤에 const를 붙이면 상수 멤버 함수가 된다. 상수 멤버 함수는 객체의 상태를 변경하지 않는 함수이다.
+        cout << num1 << " " << num2 << endl;
+    }
+};
+
+int main() {
+	SimpleClass sc1(); // sc1은 함수 선언으로 해석된다. 따라서 sc1은 SimpleClass 객체가 아니라 함수로 인식된다.
+
+    SimpleClass mysc = sc1();//함수의 호출
+	mysc.showdata();
+    return 0;
+}
+
+SimpleClass sc1()
+{
+    SimpleClass sc(20, 30);
+    return sc;
+}
+
+#include <iostream>
+using namespace std;
+
+class SimpleClass {
+    int num1;
+    int num2;
+
+public:
+ 
+    SimpleClass() {
+        num1 = 0;
+        num2 = 0;
+    }
+
+    SimpleClass(int n) {
+        num1 = n;
+        num2 = 0;
+    }
+
+
+    SimpleClass(int n1, int n2) {
+        num1 = n1;
+        num2 = n2;
+    }
+
+
+    void showdata() const {
+        cout << num1 << " " << num2 << endl;
+    }
+};
+
+int main() {
+    SimpleClass sc1;
+    sc1.showdata();
+
+    SimpleClass sc2(100);
+    sc2.showdata();
+
+    SimpleClass sc3(100, 200);
+    sc3.showdata();
+
+    return 0;
+}
+
+<출력값>
+20 30
+
+===========================================
+소멸자의 예시
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+class person {
+	char* name;
+	int age;
+public:
+	person(const char* myname, int myage) {
+	int len = strlen(myname) +  1;
+		name = new char[len];
+		strcpy(name, myname);
+		age = myage;
+		cout << " 생성자나왔슈 " << endl;
+	}
+	void showperson() const {
+		cout <<  "이름 : " << name << endl;
+		cout << "나이 : " << age << endl;
+	}
+
+	~person() {
+		delete[] name;
+		cout << "called destructor" << endl;
+	}
+};
+
+int main()
+{
+	person man1("홍길동", 20);
+	person man2("이순신", 30);
+	man1.showperson();
+	man2.showperson();
+
+	return 0;
+}
+
+
+<출력값>
+ 생성자나왔슈
+ 생성자나왔슈
+이름 : 홍길동
+나이 : 20
+이름 : 이순신
+나이 : 30
+called destructor
+called destructor
+===========================================소멸자의 이해 (특수 멤버 함수)
+생성자와 마찬가지로 소멸자도 정의 하지않으면 디폴트 소멸자가
+생성된다
+
+이름 규칙: 클래스 이름 앞에 물결호(~)를 붙여서 만듭니다. (예: ~MyClass())
+
+리턴값을 반환할수 없다
+
+매개변수를 받을 수 없기 때문에 오버로딩(Overloading)이
+ 불가능하다. 클래스당 오직 하나만 존재할 수 있다
+
+사용자가 직접 호출할 수도 있지만, 객체가 범위를 벗어나거나 delete 연산자로 메모리가 해제될 때 컴파일러에 의해 자동으로 호출 된다
+===========================================
+객체 생성
+1)Class를 만든다 
+2)생성자 호출
+==========================================예제
+class Point
+{
+private:
+    int x;
+    int y;
+public:
+    Point(const int &xpos, const int &ypos);    // 생성자
+    int GetX() const;
+    int GetY() const;
+    bool SetX(int xpos);
+    bool SetY(int ypos);
+};
+
+위에 x, y를 사용하려면 객체를 생성해야지 쓸수있다
+실질적으로 보자면 x,y를 객체 멤버라고 정의 한다
+==========================================멤버 이니셜라이저 기반의 멤버 초기화 
+사용하면 생성자가 생성되기전에 초기화가 된다 
+==========================================#include <iostream>
+using namespace std;
+
+class person
+{
+private: 
+	string name;
+	int age;
+public:
+	person(string n, int a) : name(n), age(a) { // 멤버이니셜라이징
+
+		/*
+		name = n;
+		age = a;
+		
+		*/
+		cout << "생성자 호출" << endl;
+	}
+
+	void print() {
+		cout << "이름 : " << name << endl;
+		cout << "나이 : " << age << endl;
+
+	}
+};
+
+int main()
+{
+	person p("정상수", 5201);
+	p.print();
+	return 0;
+}
+<출력값>
+이름: 정상수
+나이: 5201
+
+==========================================#include <iostream>
+using namespace std;
+
+class Engine {
+public:
+	Engine(int hp)
+	{
+		cout << hp<< "마력 엔진 생성" << endl;
+	}
+};
+
+class Car {
+private:
+	Engine  engine;
+public:
+	Car() : engine(200) {
+		cout << "자동차 생성 " << endl;
+
+	}
+};
+int main()
+{
+	Car c;
+	return 0;
+}
+
+<출력값> 
+200마력 엔진 생성
+자동차 생성
+
+==========================================
+#객체 배열
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+class person {
+private:
+    char* name;
+    int age;
+
+public:
+    // 생성자 (매개변수가 있는 경우)
+    person(const char* myname, int myage) {
+        int len = strlen(myname) + 1;
+        name = new char[len];
+        strcpy_s(name, len, myname); // 안전한 문자열 복사 함수 사용
+        age = myage;
+    }
+
+    // 기본 생성자 (객체 배열 선언 시 필요)
+    person() {
+        name = NULL;
+        age = 0;
+        cout << "기본 생성자 호출" << endl;
+    }
+
+    // 정보 설정 함수
+    void Setpersoninfo(char* myname, int myage) {
+        if (name != NULL) {
+            delete[] name;
+        }
+        int len = strlen(myname) + 1;
+        name = new char[len];
+        strcpy_s(name, len, myname); // 안전한 문자열 복사 함수 사용
+        age = myage;
+    }
+
+    // 정보 출력 함수
+    void Showpersoninfo() const {
+        cout << "이름 : " << name << endl;
+        cout << "나이 : " << age << endl;
+    }
+
+    // 소멸자
+    ~person() {
+        if (name != NULL) {
+            delete[] name;
+        }
+        cout << "소멸자 호출 (cut)" << endl;
+    }
+};
+
+int main() {
+    person parr[3];
+
+    char namestr[100];
+    char* strptr = nullptr;
+    int age;
+    int len;
+
+    for (int i = 0; i < 3; i++) {
+        cout << i + 1 << "번째 사람 정보 입력" << endl;
+        cout << "이름 : ";
+        cin >> namestr;
+        cout << "나이 : ";
+        cin >> age;
+
+        len = strlen(namestr) + 1;
+        strptr = new char[len];
+        strcpy_s(strptr, len, namestr); // 안전한 문자열 복사 함수 사용
+
+        parr[i].Setpersoninfo(strptr, age);
+
+        delete[] strptr;
+        cout << endl;
+    }
+
+    cout << "\n--- 입력된 정보 출력 ---" << endl;
+    for (int i = 0; i < 3; i++) {
+        parr[i].Showpersoninfo();
+        cout << endl;
+    }
+
+    return 0;
+}
+
+<출력값>
+기본 생성자 호출
+기본 생성자 호출
+기본 생성자 호출
+1번째 사람 정보 입력
+이름 : 이순신
+나이 : 120
+
+2번째 사람 정보 입력
+이름 : 임꺽정
+나이 : 56
+
+3번째 사람 정보 입력
+이름 : 홍길동
+나이 : 230
+
+
+--- 입력된 정보 출력 ---
+이름 : 이순신
+나이 : 120
+
+이름 : 임꺽정
+나이 : 56
+
+이름 : 홍길동
+나이 : 230
+
+소멸자 호출 (cut)
+소멸자 호출 (cut)
+소멸자 호출 (cut)
+==========================================
+C++ 스타일의 초기화
+int num(20);
+int &ref(num);
+
+C언어 스타일의 초기화
+int num = 20;
+int &ref=num;
+------------------------------------------------------------------------------
+int num(int)
+함수 선언
+
+num(20);
+함수 호출
+
+int num(int a){
+함수 정의
+}
+
+=========================================
+자동으로 삽입이 되는 디폴트 복사 생성자
+
+복사생성자를 정의하지 않으면, 멤버 대 멤버의
+복사를 진행하는 디폴트 복사 생성자가 삽입된다
+=========================================
+#include <iostream>
+using namespace std;
+
+class SoSimple { // 클래스 이름 오타 수정 (SoSinmple -> SoSimple)
+private:
+    int num1;
+    int num2;
+
+public:
+    // 매개변수가 2개이므로 객체 생성 시 인자 2개를 전달해야 합니다.
+    SoSimple(int n1, int n2) : num1(n1), num2(n2) {}
+
+    // 복사 생성자 선언부의 문법 오류 수정 (중괄호 위치 및 함수 선언 형식)
+    SoSimple(const SoSimple& copy) : num1(copy.num1), num2(copy.num2) {}
+
+    // 멤버 함수 선언 및 정의 분리 또는 정상적인 문법으로 수정
+    void ShowSimpleData() {
+        cout << num1 << endl;
+        cout << num2 << endl;
+    }
+};
+
+int main() {
+    // 생성자에 전달하는 인자 개수 맞춤 (15.30 -> 15, 30)
+    SoSimple sim1(15, 30);
+    cout << "생성 및 초기화 직전" << endl;
+
+    // 복사 생성자 호출 (SoSimple sim2(sim1); 과 동일한 의미)
+    SoSimple sim2 = sim1;
+    cout << "생성 및 초기화 직후" << endl;
+
+    sim2.ShowSimpleData();
+
+    return 0;
+}
+
+<출력값>
+생성 및 초기화 직전
+생성 및 초기화 직후
+15
+30
+==========================================얕은 복사, 깊은 복사
+
+얕은 복사는 객체 소멸시 문제가 되는 구조이다
+
+
+
+깊은 복사를 위한 복사 생성자의 정의 
+Person(const Person& copy) : age(copy.age)
+{
+    name = new char[strlen(copy.name) + 1];
+    strcpy(name, copy.name);
+}
+깊은 복사를 구성하는 복사 생성자
+
+==========================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
