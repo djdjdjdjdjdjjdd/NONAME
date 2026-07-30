@@ -1,0 +1,152 @@
+복사 생성자 정의
+
+동일한 클래스 타입의 다른 객체에 대한 참조를 인자로 받아
+그객체의 상태를 그대로 복사하여 새오운 객체를 초기화 할때 호출되는
+특별한 생성자이다
+
+참조전달(&) 인자로 객체를 전달할때 값에 의한 전달을 사용하면.
+복사생성자가 다시 호풀되면서 무한루프에 빠지게 되므로 반드시 참조자를 사용해야합니다
+
+상수성(const) 원본객체의 데이터가 실수로 변경되는것을 방지하기 위해 대개 키워드를 붙여 상수 참조로 받습니다
+================================================
+참조연산자를 하나 더 두면 상수든 참조할수있다
+================================================
+클래스의 firend 선언
+
+firend 선언은 private 멤버의 접근을 허용하는 선언이다.
+
+firend선언은 정보은닉에 반하는 선언이기 때문에 매우 제한적으로 4
+선언 되어야 한다 
+
+firend선언을 하면 무조건 private에 접근할수 있다
+하지만 가급적이면 많이 사용하지는 말자.
+==============================================
+#include <iostream>
+using namespace std;
+
+class SoSimple
+{
+private:
+	int num;
+public:
+	SoSimple(int n) : num(n) {}
+	SoSimple& AddNum(int n)
+	{
+		return *this;
+	}
+	void ShowData() const {
+		cout << "num" << num << endl;
+	}
+};
+
+int main()
+{
+	const SoSimple obj(7);
+	obj.ShowData();
+	return 0;
+}
+
+==============================================
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+// 선행 선언 (Forward Declaration)
+class Girl; 
+
+class Boy {
+private:
+    int height;
+    friend class Girl; // Girl은 Boy의 private에 접근 가능
+
+public:
+    Boy(int len) : height(len) {}
+    void ShowYourFriendInfo(Girl& frn);
+};
+
+class Girl {
+private:
+    char phNump[20];
+
+public:
+    Girl(const char* num) {
+        strcpy_s(phNump, sizeof(phNump), num); // 안전한 문자열 복사 함수 사용 권장 (또는 strcpy)
+    }
+    void ShowYourFriendInfo(Boy& frn);
+    
+    // 원본 코드의 오타 수정: boy -> Boy
+    friend class Boy; 
+};
+
+// Boy의 멤버 함수 정의 (Girl의 private 멤버인 phNump에 접근 가능)
+void Boy::ShowYourFriendInfo(Girl& frn) {
+    cout << "Girl's phone number: " << frn.phNump << endl;
+}
+
+// Girl의 멤버 함수 정의 (Boy의 private 멤버인 height에 접근 가능)
+void Girl::ShowYourFriendInfo(Boy& frn) {
+    cout << "Boy's height: " << frn.height << endl;
+}
+
+int main() {
+    Boy boy(170);
+    Girl girl("010-4554-4544");
+
+    boy.ShowYourFriendInfo(girl);
+    girl.ShowYourFriendInfo(boy);
+
+    return 0;
+}
+
+<출력값>
+Girl's phone number: 010-4554-4544
+Boy's height: 170
+==========================================
+static 멤버변수 (클랙스 변수)
+
+static 변수는 객체 별로 존재하는 변수가 아닌 프로그램 
+전체 영역에 하나만 존재하는 변수이다
+
+프로그램 실행과 동시에 초기화 되어 메모리 공간에 할당된다.
+====================================상속의 예제
+
+#include <iostream>
+
+class Human{
+private:
+	char name[20];
+	int age;
+public:
+	Human(const char*, int);
+	void getdata();
+};
+Human::Human(const char* name, int age) {
+	strcpy(this->name, name);
+	this->age = age;
+}
+void Human::getdata() {
+	std::cout << "이름 :" << name << "나이 : " << age << endl;
+}
+class Student : public Human {
+private:
+	int stID;
+public:
+	Student(const char*, int, int);
+	void print();
+
+};
+Student::Student(const char* aname, int aage, int astID) 
+	: Human(aname, aage), stID(astID)
+{
+
+}
+
+int main()
+{
+	Human n;
+	Student s;
+	s.getdata();
+	return 0; 
+}
+
+
