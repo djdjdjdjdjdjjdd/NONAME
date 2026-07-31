@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{17463d1b-d778-4572-aaf7-2e79fc3b14a9}</ProjectGuid>
+    <ProjectGuid>{b25f1a3f-05ab-46fc-af90-f3112b532def}</ProjectGuid>
     <RootNamespace>Project1</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -139,9 +139,20 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DDDDTEST.cpp" />
-    <ClCompile Include="dmdkdkr.cpp" />
+    <ClCompile Include="has-a.cpp" />
+    <ClCompile Include="is-a관계.cpp" />
+    <ClCompile Include="객체 포인트3.cpp" />
+    <ClCompile Include="객체 포인트4.cpp" />
+    <ClCompile Include="객체 포인트5.cpp" />
+    <ClCompile Include="객체 포인트６.cpp" />
+    <ClCompile Include="객체포인트.cpp" />
+    <ClCompile Include="객체포인트2.cpp" />
+    <ClCompile Include="객체포인트7.cpp" />
     <ClCompile Include="상속.cpp" />
+    <ClCompile Include="상속자들 2.cpp" />
+    <ClCompile Include="나 소멸자 내 순서를 알려주지.cpp" />
+    <ClCompile Include="소멸자인가.cpp" />
+    <ClCompile Include="제목을 모르겟네요.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
